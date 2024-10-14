@@ -1,23 +1,19 @@
 import pytest
-from unittest.mock import Mock
 from praktikum.burger import Burger
 from praktikum.ingredient import Ingredient
-from data import bun_price_correct, bun_name_correct, ingredient_name_first_correct, ingredient_price_first_correct, ingredient_type_first_correct, ingredient_type_double_correct, ingredient_name_double_correct, ingredient_price_double_correct
+from data import ingredient_name_first, ingredient_price_first, ingredient_type_first, ingredient_type_double, ingredient_name_double, ingredient_price_double
 class TestBurgers:
 
-    def test_set_buns_true(self):
-        mock_bun = Mock()
-        mock_bun.get_name.return_value = bun_name_correct
-        mock_bun.get_price.return_value = bun_price_correct
-        burger = Burger()
-        burger.set_buns(mock_bun)
+    def test_set_buns_true(self, item_of_mock_bun_class):
 
-        assert burger.bun == mock_bun
+        burger = Burger()
+        burger.set_buns(item_of_mock_bun_class)
+        assert burger.bun == item_of_mock_bun_class
 
     @pytest.mark.parametrize('ingredients_type,ingredients_name,ingredients_price',
     [
-        [ingredient_type_first_correct, ingredient_name_first_correct, ingredient_price_first_correct],
-        [ingredient_type_double_correct, ingredient_name_double_correct, ingredient_price_double_correct],
+        [ingredient_type_first, ingredient_name_first, ingredient_price_first],
+        [ingredient_type_double, ingredient_name_double, ingredient_price_double],
 
     ]
                              )
@@ -30,7 +26,7 @@ class TestBurgers:
 
 
     def test_remove_ingredient_true(self):
-        ingredient = Ingredient(ingredient_type_first_correct, ingredient_name_first_correct, ingredient_price_first_correct)
+        ingredient = Ingredient(ingredient_type_first, ingredient_name_first, ingredient_price_first)
         burger = Burger()
         burger.add_ingredient(ingredient)
         burger.remove_ingredient(0)
@@ -39,8 +35,8 @@ class TestBurgers:
 
     def test_move_ingredient_true(self):
 
-        ingredient_first = Ingredient(ingredient_type_first_correct, ingredient_name_first_correct, ingredient_price_first_correct)
-        ingredient_double = Ingredient(ingredient_type_double_correct, ingredient_name_double_correct, ingredient_price_double_correct)
+        ingredient_first = Ingredient(ingredient_type_first, ingredient_name_first, ingredient_price_first)
+        ingredient_double = Ingredient(ingredient_type_double, ingredient_name_double, ingredient_price_double)
         burger = Burger()
         burger.add_ingredient(ingredient_first)
         burger.add_ingredient(ingredient_double)
@@ -50,31 +46,23 @@ class TestBurgers:
         assert burger.ingredients[1] == ingredient_first
 
 
-    def test_get_price_true(self):
-        mock_bun = Mock()
-        mock_bun.get_name.return_value = bun_name_correct
-        mock_bun.get_price.return_value = bun_price_correct
+    def test_get_price_true(self, item_of_mock_bun_class):
         burger = Burger()
-        burger.set_buns(mock_bun)
-        ingredient_first = Ingredient(ingredient_type_first_correct, ingredient_name_first_correct, ingredient_price_first_correct)
-        ingredient_double = Ingredient(ingredient_type_double_correct, ingredient_name_double_correct, ingredient_price_double_correct)
+        burger.set_buns(item_of_mock_bun_class)
+        ingredient_first = Ingredient(ingredient_type_first, ingredient_name_first, ingredient_price_first)
+        ingredient_double = Ingredient(ingredient_type_double, ingredient_name_double, ingredient_price_double)
         burger.add_ingredient(ingredient_first)
         burger.add_ingredient(ingredient_double)
 
         assert burger.get_price() == 115.0
 
 
-
-    def test_get_receipt_true(self):
-        mock_bun = Mock()
-        mock_bun.get_name.return_value = bun_name_correct
-        mock_bun.get_price.return_value = bun_price_correct
+    def test_get_receipt_true(self, item_of_mock_bun_class):
         burger = Burger()
-        burger.set_buns(mock_bun)
-        ingredient_first = Ingredient(ingredient_type_first_correct, ingredient_name_first_correct, ingredient_price_first_correct)
-        ingredient_double = Ingredient(ingredient_type_double_correct, ingredient_name_double_correct, ingredient_price_double_correct)
+        burger.set_buns(item_of_mock_bun_class)
+        ingredient_first = Ingredient(ingredient_type_first, ingredient_name_first, ingredient_price_first)
+        ingredient_double = Ingredient(ingredient_type_double, ingredient_name_double, ingredient_price_double)
         burger.add_ingredient(ingredient_first)
         burger.add_ingredient(ingredient_double)
-
-        assert '==== Bulka ====' in burger.get_receipt()
+        assert ('(==== Bulka ====)\n' '= sauce Cheese =\n' '= filling Spicy =\n' '(==== Bulka ====)\n' '\n' 'Price: 115.0') == burger.get_receipt()
 
