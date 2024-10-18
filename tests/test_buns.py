@@ -3,12 +3,13 @@ from data import bun_price, bun_name
 class TestBuns:
     def test_get_bun_name(self):
         bun = Bun(bun_name, bun_price)
+        bun.name = bun.get_name()
 
-        assert bun.get_name() == bun_name
-
+        assert bun.name == bun_name
 
     def test_get_bun_price(self):
         bun = Bun(bun_name, bun_price)
+        bun.price = bun.get_price()
 
-        assert bun.get_price() == bun_price
+        assert bun.price == bun_price
 
